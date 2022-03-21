@@ -47,6 +47,26 @@ public class CdfPluginPropertiesActions {
     SeleniumHelper.getPropertiesLocators(CdfSchemaLocators.class);
   }
 
+  /**
+   * Click Macro (M) button of Plugin Property
+   *
+   * @param pluginProperty
+   */
+  public static void clickMacroButtonOfProperty(String pluginProperty) {
+    CdfPluginPropertiesLocators.locateMacroButtonOfProperty(pluginProperty).click();
+  }
+
+  /**
+   * Fill value in the Macro enabled Plugin Property
+   *
+   * @param pluginProperty
+   * @param argument
+   */
+  public static void fillValueInMacroEnabledProperty(String pluginProperty, String argument) {
+    ElementHelper.replaceElementValue(
+      CdfPluginPropertiesLocators.locateMacroInputOfProperty(pluginProperty), "${" + argument + "}");
+  }
+
   public static void clickGetSchemaButton() {
     ElementHelper.clickOnElement(CdfPluginPropertiesLocators.getSchemaButton);
     WaitHelper.waitForElementToBeOptionallyDisplayed(
