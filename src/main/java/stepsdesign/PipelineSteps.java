@@ -107,6 +107,16 @@ public class PipelineSteps implements CdfHelper {
     CdfStudioActions.connectSourceAndSink(source, sourceTitle, index, sink, sinkTitle);
   }
 
+  @When("Click on the Macro button of Property: {string}")
+  public void clickMacroButtonOfProperty(String property) {
+    CdfPluginPropertiesActions.clickMacroButtonOfProperty(property);
+  }
+
+  @When("Fill the macro enabled Property: {string} with value: {string}")
+  public void fillValueInMacroEnabledProperty(String property, String value) {
+    CdfPluginPropertiesActions.fillValueInMacroEnabledProperty(property, value);
+  }
+
   @When("Click on the Validate button")
   public void clickOnValidateButton() {
     CdfPluginPropertiesActions.clickValidateButton();
@@ -220,6 +230,15 @@ public class PipelineSteps implements CdfHelper {
     CdfPluginPropertiesActions.verifyInputSchemaMatchesOutputSchema(sourcePropertiesOutputSchema);
   }
 
+  @Then("Verify sink plugin's Preview Data for Input Records table and the Input Schema matches the Output Schema of " +
+    "Source plugin")
+  public void verifySinkPluginPreviewDataInputRecordsTableAndInputSchemaMatchesOutputSchemaOfSourcePlugin() {
+    CdfPluginPropertiesActions
+      .verifyInputRecordsTableColumnsUnderPreviewTabMatchesInputSchemaFields(propertiesSchemaColumnList);
+    CdfPluginPropertiesActions.clickOnTab(ConstantsUtil.PROPERTIES_TAB);
+    CdfPluginPropertiesActions.verifyInputSchemaMatchesOutputSchema(sourcePropertiesOutputSchema);
+  }
+
   @Then("Close the preview")
   public void closeThePreview() {
     CdfStudioActions.previewSelect();
@@ -229,6 +248,16 @@ public class PipelineSteps implements CdfHelper {
   public void closeThePreviewData() {
     CdfPluginPropertiesActions.clickCloseButton();
     CdfStudioActions.previewSelect();
+  }
+
+  @Then("Click on the Preview Data link on the Source plugin node: {string}")
+  public static void clickPreviewDataLinkOnSourcePluginNode(String pluginName) {
+    CdfStudioActions.clickPreviewDataLinkOnSourcePluginNode(pluginName);
+  }
+
+  @Then("Click on the Preview Data link on the Sink plugin node: {string}")
+  public static void clickPreviewDataLinkOnSinkPluginNode(String pluginName) {
+    CdfStudioActions.clickPreviewDataLinkOnSinkPluginNode(pluginName);
   }
 
   @Then("Deploy the pipeline")

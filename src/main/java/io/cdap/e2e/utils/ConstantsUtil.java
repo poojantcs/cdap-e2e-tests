@@ -22,6 +22,7 @@ public class ConstantsUtil {
   public static final String AUTOMATION_TEST = "automation_test";
   public static final String PROJECT_ID = "projectId";
   public static final String DATASET = "dataset";
+  public static final String TABLE = "tableNameInSink";
   public static final String SAMPLE_SIZE = "1000";
   public static final String DELIMITER = "delimiter@";
   public static final String VALUE = "value";

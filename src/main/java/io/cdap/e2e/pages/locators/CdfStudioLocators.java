@@ -200,6 +200,16 @@ public class CdfStudioLocators {
     return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
   }
 
+  public static WebElement locateSourcePluginPreviewDataLinkOnPluginNode(String pluginName) {
+    return SeleniumDriver.getDriver().findElement(
+      By.xpath("//*[@data-type='batchsource']//div[contains(@data-cy,'" + pluginName + "-preview-data-btn')]//a"));
+  }
+
+  public static WebElement locateSinkPluginPreviewDataLinkOnPluginNode(String pluginName) {
+    return SeleniumDriver.getDriver().findElement(
+      By.xpath("//*[@data-type='batchsink']//div[contains(@data-cy,'" + pluginName + "-preview-data-btn')]//a"));
+  }
+
   /**
    * @deprecated Use {@link CdfPluginPropertiesLocators#validateButton}
    */

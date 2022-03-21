@@ -283,6 +283,24 @@ public class CdfStudioActions {
   }
 
   /**
+   * Click 'Preview Data' link on the source plugin
+   *
+   * @param pluginName
+   */
+  public static void clickPreviewDataLinkOnSourcePluginNode(String pluginName) {
+    ElementHelper.clickOnElement(CdfStudioLocators.locateSourcePluginPreviewDataLinkOnPluginNode(pluginName));
+  }
+
+  /**
+   * Click 'Preview Data' link on the sink plugin
+   *
+   * @param pluginName
+   */
+  public static void clickPreviewDataLinkOnSinkPluginNode(String pluginName) {
+    ElementHelper.clickOnElement(CdfStudioLocators.locateSinkPluginPreviewDataLinkOnPluginNode(pluginName));
+  }
+
+  /**
    * @deprecated Use {@link io.cdap.e2e.utils.CdfHelper#selectSourcePlugin(String)}
    */
   @Deprecated
