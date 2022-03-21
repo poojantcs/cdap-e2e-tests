@@ -25,9 +25,21 @@ import org.openqa.selenium.support.How;
 import java.util.List;
 
 /**
- *
+ * Represents CDF Plugin Properties page locators
  */
 public class CdfPluginPropertiesLocators {
+
+  public static WebElement locateMacroButtonOfProperty(String pluginProperty) {
+    return SeleniumDriver.getDriver().findElement(By.xpath("//div[@data-cy='" + pluginProperty + "']/button"));
+  }
+
+  public static WebElement locateMacroInputOfProperty(String pluginProperty) {
+    return SeleniumDriver.getDriver().findElement(By.xpath("//input[@data-cy='" + pluginProperty + "']"));
+  }
+
+  public static WebElement locateMacroTextareaOfProperty(String pluginProperty) {
+    return SeleniumDriver.getDriver().findElement(By.xpath("//textarea[@data-cy='" + pluginProperty + "']"));
+  }
 
   @FindBy(how = How.XPATH, using = "//button[@data-cy='get-schema-btn'][./span[contains(text(), 'Get Schema')]]")
   public static WebElement getSchemaButton;
