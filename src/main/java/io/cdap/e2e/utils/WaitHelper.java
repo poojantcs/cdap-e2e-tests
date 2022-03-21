@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -110,6 +111,9 @@ public class WaitHelper {
       return true;
     } catch (NoSuchElementException e) {
       logger.info("Element is not displayed");
+      return false;
+    } catch (StaleElementReferenceException e) {
+      logger.info("Element is not interactable");
       return false;
     }
   }

@@ -326,6 +326,33 @@ public class CdfStudioActions {
   }
 
   /**
+   * @param fromPlugin Title of the plugin from which connection needs to start
+   * @param toPlugin   Title of the plugin to connect to
+   */
+  public static void establishConnection(String fromPlugin, String toPlugin) {
+    ElementHelper.dragAndDrop(CdfStudioLocators.locatePluginEndpointInCanvas(fromPlugin),
+                              CdfStudioLocators.locatePluginNodeInCanvas(toPlugin));
+  }
+
+  /**
+   * Click 'Preview Data' link on the source plugin
+   *
+   * @param pluginName
+   */
+  public static void clickPreviewDataLinkOnSourcePluginNode(String pluginName) {
+    ElementHelper.clickOnElement(CdfStudioLocators.locateSourcePluginPreviewDataLinkOnPluginNode(pluginName));
+  }
+
+  /**
+   * Click 'Preview Data' link on the sink plugin
+   *
+   * @param pluginName
+   */
+  public static void clickPreviewDataLinkOnSinkPluginNode(String pluginName) {
+    ElementHelper.clickOnElement(CdfStudioLocators.locateSinkPluginPreviewDataLinkOnPluginNode(pluginName));
+  }
+
+  /**
    * @deprecated Use {@link io.cdap.e2e.utils.CdfHelper#selectSourcePlugin(String)}
    */
   @Deprecated
