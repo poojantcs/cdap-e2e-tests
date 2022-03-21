@@ -126,6 +126,19 @@ public class ElementHelper {
   }
 
   /**
+   * Send keys to a WebElement
+   *
+   * @param element WebElement
+   * @param keys    keys
+   */
+  public static void sendKeysToTextarea(WebElement element, String keys) {
+    WaitHelper.waitForElementToBeEnabled(element);
+    scrollToElement(element);
+    logger.info("Send keys to element: " + element);
+    element.sendKeys(keys);
+  }
+
+  /**
    * Hover over a WebElement
    *
    * @param element WebElement
@@ -169,6 +182,25 @@ public class ElementHelper {
    */
   public static void clearElementValue(WebElement element) {
     clearElementValue(element, 1024);
+  }
+
+  /**
+   * Execute Select All command based on System OS and clear the text
+   *
+   * @param element WebElement
+   */
+  public static void selectAllTextAndClear(WebElement element) {
+    String currentOs = System.getProperty("os.name");
+    String selectAllCommand = Keys.CONTROL + "a";
+
+    if (currentOs.toLowerCase().contains("mac")) {
+      selectAllCommand = Keys.COMMAND + "a";
+    }
+
+    logger.info("Select All text and clear for WebElement: " + element);
+    WaitHelper.waitForElementToBeEnabled(element);
+    element.sendKeys(selectAllCommand);
+    element.sendKeys(Keys.BACK_SPACE);
   }
 
   /**
