@@ -15,6 +15,7 @@
  */
 package stepsdesign;
 
+import io.cdap.e2e.pages.actions.CdfLogActions;
 import io.cdap.e2e.pages.actions.CdfPipelineRunAction;
 import io.cdap.e2e.pages.actions.CdfPluginPropertiesActions;
 import io.cdap.e2e.pages.actions.CdfStudioActions;
@@ -33,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,13 +107,9 @@ public class PipelineSteps implements CdfHelper {
     CdfStudioActions.connectSourceAndSink(source, sourceTitle, index, sink, sinkTitle);
   }
 
-  @When("Click on the Macro button of Property: {string}")
-  public void clickMacroButtonOfProperty(String property) {
-    CdfPluginPropertiesActions.clickMacroButtonOfProperty(property);
-  }
-
-  @When("Fill the macro enabled Property: {string} with value: {string}")
+  @When("Click on the Macro button of Property: {string} and set the value to: {string}")
   public void fillValueInMacroEnabledProperty(String property, String value) {
+    CdfPluginPropertiesActions.clickMacroButtonOfProperty(property);
     CdfPluginPropertiesActions.fillValueInMacroEnabledProperty(property, value);
   }
 
@@ -204,12 +200,54 @@ public class PipelineSteps implements CdfHelper {
 
   @Then("Enter runtime argument value {string} for key {string}")
   public void enterRuntimeArgumentValueForKey(String value, String runtimeArgumentKey) {
-    CdfStudioLocators.runtimeArgsValue(runtimeArgumentKey).sendKeys(PluginPropertyUtils.pluginProp(value));
+    CdfStudioActions.enterRuntimeArgumentValue(runtimeArgumentKey, PluginPropertyUtils.pluginProp(value));
+  }
+
+  @Then("Enter runtime argument value from environment variable {string} for key {string}")
+  public void enterRuntimeArgumentValueFromEnvironmentVariableForKey(String envVariableKey,
+                                                                     String runtimeArgumentKey) {
+    CdfStudioActions.enterRuntimeArgumentValue(runtimeArgumentKey,
+                                               System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)));
   }
 
   @Then("Run the preview of pipeline with runtime arguments")
   public void previewAndRunThePipelineWithRuntimeArguments() {
     CdfStudioActions.clickPreviewConfigRunButton();
+  }
+
+  @Then("Wait till pipeline preview is in running state")
+  public void waitTillPipelinePreviewIsInRunningState() {
+    CdfStudioActions.waitTillPipelinePreviewRunCompletes();
+  }
+
+  @Then("Wait till pipeline preview is in running state with a timeout of {long} seconds")
+  public void waitTillPipelinePreviewIsInRunningState(long timeoutInSeconds) {
+    CdfStudioActions.waitTillPipelinePreviewRunCompletes(timeoutInSeconds);
+  }
+
+  @Then("Open and capture pipeline preview logs")
+  public void openAndCapturePipelinePreviewLogs() {
+    CdfStudioActions.closeStatusBannerIfDisplayed();
+    CdfStudioActions.clickPreviewLogsButton();
+    try {
+      String rawLogs = CdfPipelineRunAction.captureRawLogs();
+      String logsSeparatorMessage = ConstantsUtil.LOGS_SEPARATOR_MESSAGE
+        .replace("MESSAGE", "PIPELINE PREVIEW RUN LOGS");
+      BeforeActions.scenario.write(rawLogs);
+      CdfPipelineRunAction.writeRawLogsToFile(BeforeActions.file, logsSeparatorMessage, rawLogs);
+    } catch (Exception e) {
+      BeforeActions.scenario.write("Exception in capturing logs : " + e);
+    }
+  }
+
+  @Then("Verify the preview run status of pipeline in the logs is {string}")
+  public void verifyThePreviewRunStatusOfOfPipelineInTheLogsIs(String previewStatus) {
+    CdfStudioActions.verifyPipelinePreviewStatusInLogs(previewStatus);
+  }
+
+  @Then("Close the pipeline logs")
+  public void closeThePipelineLogs() {
+    CdfLogActions.closeLogs();
   }
 
   @Then("Verify the preview of pipeline is {string}")
@@ -301,9 +339,11 @@ public class PipelineSteps implements CdfHelper {
   public void openAndCaptureLogs() {
     try {
       CdfPipelineRunAction.logsClick();
-      BeforeActions.scenario.write(CdfPipelineRunAction.captureRawLogs());
-      PrintWriter out = new PrintWriter(BeforeActions.file);
-      out.println(CdfPipelineRunAction.captureRawLogs());
+      String rawLogs = CdfPipelineRunAction.captureRawLogs();
+      String logsSeparatorMessage = ConstantsUtil.LOGS_SEPARATOR_MESSAGE
+        .replace("MESSAGE", "DEPLOYED PIPELINE RUNTIME LOGS");
+      BeforeActions.scenario.write(rawLogs);
+      CdfPipelineRunAction.writeRawLogsToFile(BeforeActions.file, logsSeparatorMessage, rawLogs);
     } catch (Exception e) {
       BeforeActions.scenario.write("Exception in capturing logs : " + e);
     }

@@ -22,7 +22,7 @@ public class ConstantsUtil {
   public static final String AUTOMATION_TEST = "automation_test";
   public static final String PROJECT_ID = "projectId";
   public static final String DATASET = "dataset";
-  public static final String TABLE = "tableNameInSink";
+  public static final String TABLE = "tableName";
   public static final String SAMPLE_SIZE = "1000";
   public static final String DELIMITER = "delimiter@";
   public static final String VALUE = "value";
@@ -49,6 +49,9 @@ public class ConstantsUtil {
   public static final String PROPERTIES_TAB = "Properties";
   public static final String PREVIEW_TAB = "Preview";
   public static final String DOCUMENTATION_TAB = "Documentation";
+  public static final String LOGS_SEPARATOR_MESSAGE = "---------------------------------------------------------" +
+    "------------------------------MESSAGE----------------------------------------------------------------------" +
+    "-----------------";
   /* TODO: Remove FIRST_PLUGIN_IN_LIST constant once https://cdap.atlassian.net/browse/CDAP-18862 is fixed */
   public static final String FIRST_PLUGIN_IN_LIST = "BigQuery";
   /**
