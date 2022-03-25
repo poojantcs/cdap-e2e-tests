@@ -57,16 +57,32 @@ public class CdfPluginPropertiesActions {
   }
 
   /**
-   * Fill value in the Macro enabled Plugin Property
+   * Fill value in the Macro enabled Plugin Property (input)
    *
    * @param pluginProperty
    * @param argument
    */
-  public static void fillValueInMacroEnabledProperty(String pluginProperty, String argument) {
+  public static void fillValueInMacroEnabledInputProperty(String pluginProperty, String argument) {
     ElementHelper.replaceElementValue(
       CdfPluginPropertiesLocators.locateMacroInputOfProperty(pluginProperty), "${" + argument + "}");
   }
 
+  /**
+   * Fill value in the Macro enabled Plugin Property (textarea)
+   *
+   * @param pluginProperty
+   * @param argument
+   */
+  public static void fillValueInMacroEnabledTextareaProperty(String pluginProperty, String argument) {
+    ElementHelper.selectAllTextAndClear(CdfPluginPropertiesLocators.locateMacroTextareaOfProperty(pluginProperty));
+    ElementHelper.sendKeysToTextarea(
+      CdfPluginPropertiesLocators.locateMacroTextareaOfProperty(pluginProperty),
+      "${" + argument + "}");
+  }
+
+  /**
+   * Click on the Get Schema button inside Plugin's properties page
+   */
   public static void clickGetSchemaButton() {
     ElementHelper.clickOnElement(CdfPluginPropertiesLocators.getSchemaButton);
     WaitHelper.waitForElementToBeOptionallyDisplayed(

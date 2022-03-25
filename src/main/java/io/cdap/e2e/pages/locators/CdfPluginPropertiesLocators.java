@@ -37,6 +37,10 @@ public class CdfPluginPropertiesLocators {
     return SeleniumDriver.getDriver().findElement(By.xpath("//input[@data-cy='" + pluginProperty + "']"));
   }
 
+  public static WebElement locateMacroTextareaOfProperty(String pluginProperty) {
+    return SeleniumDriver.getDriver().findElement(By.xpath("//textarea[@data-cy='" + pluginProperty + "']"));
+  }
+
   @FindBy(how = How.XPATH, using = "//button[@data-cy='get-schema-btn'][./span[contains(text(), 'Get Schema')]]")
   public static WebElement getSchemaButton;
 

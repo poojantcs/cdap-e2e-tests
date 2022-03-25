@@ -108,9 +108,15 @@ public class PipelineSteps implements CdfHelper {
   }
 
   @When("Click on the Macro button of Property: {string} and set the value to: {string}")
-  public void fillValueInMacroEnabledProperty(String property, String value) {
+  public void fillValueInMacroEnabledInputProperty(String property, String value) {
     CdfPluginPropertiesActions.clickMacroButtonOfProperty(property);
-    CdfPluginPropertiesActions.fillValueInMacroEnabledProperty(property, value);
+    CdfPluginPropertiesActions.fillValueInMacroEnabledInputProperty(property, value);
+  }
+
+  @When("Click on the Macro button of Property: {string} and set the value in textarea: {string}")
+  public void fillValueInMacroEnabledTextareaProperty(String property, String value) {
+    CdfPluginPropertiesActions.clickMacroButtonOfProperty(property);
+    CdfPluginPropertiesActions.fillValueInMacroEnabledTextareaProperty(property, value);
   }
 
   @When("Click on the Validate button")
