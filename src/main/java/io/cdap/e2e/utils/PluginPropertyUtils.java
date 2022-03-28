@@ -51,6 +51,14 @@ public class PluginPropertyUtils {
     return errorProperties.getProperty(property);
   }
 
+  public static void addPluginProp(String property, String value) {
+    pluginProperties.put(property, value);
+  }
+
+  public static void removePluginProp(String property) {
+    pluginProperties.remove(property);
+  }
+
   /**
    * @param property
    * @deprecated Use

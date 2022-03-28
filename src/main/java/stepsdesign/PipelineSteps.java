@@ -54,6 +54,16 @@ public class PipelineSteps implements CdfHelper {
   List<String> propertiesSchemaColumnList = new ArrayList<>();
   Map<String, String> sourcePropertiesOutputSchema = new HashMap<>();
 
+  @Then("Click on the Preview Data link on the Source plugin node: {string}")
+  public static void clickPreviewDataLinkOnSourcePluginNode(String pluginName) {
+    CdfStudioActions.clickPreviewDataLinkOnSourcePluginNode(pluginName);
+  }
+
+  @Then("Click on the Preview Data link on the Sink plugin node: {string}")
+  public static void clickPreviewDataLinkOnSinkPluginNode(String pluginName) {
+    CdfStudioActions.clickPreviewDataLinkOnSinkPluginNode(pluginName);
+  }
+
   @Given("Open Datafusion Project to configure pipeline")
   public void openDatafusionProjectToConfigurePipeline() throws IOException, InterruptedException {
     openCdf();
@@ -105,6 +115,11 @@ public class PipelineSteps implements CdfHelper {
   public void connectSourceAsHavingTitleAndSinkAsHavingTitleToEstablishConnection(String source, String sourceTitle
     , int index, String sink, String sinkTitle) {
     CdfStudioActions.connectSourceAndSink(source, sourceTitle, index, sink, sinkTitle);
+  }
+
+  @Then("Connect plugins: {string} and {string} to establish connection")
+  public void connectPluginsToEstablishConnection(String fromPlugin, String toPlugin) {
+    CdfStudioActions.establishConnection(fromPlugin, toPlugin);
   }
 
   @When("Click on the Macro button of Property: {string} and set the value to: {string}")
@@ -213,7 +228,7 @@ public class PipelineSteps implements CdfHelper {
   public void enterRuntimeArgumentValueFromEnvironmentVariableForKey(String envVariableKey,
                                                                      String runtimeArgumentKey) {
     CdfStudioActions.enterRuntimeArgumentValue(runtimeArgumentKey,
-                                               System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)));
+      System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)));
   }
 
   @Then("Run the preview of pipeline with runtime arguments")
@@ -294,16 +309,6 @@ public class PipelineSteps implements CdfHelper {
     CdfStudioActions.previewSelect();
   }
 
-  @Then("Click on the Preview Data link on the Source plugin node: {string}")
-  public static void clickPreviewDataLinkOnSourcePluginNode(String pluginName) {
-    CdfStudioActions.clickPreviewDataLinkOnSourcePluginNode(pluginName);
-  }
-
-  @Then("Click on the Preview Data link on the Sink plugin node: {string}")
-  public static void clickPreviewDataLinkOnSinkPluginNode(String pluginName) {
-    CdfStudioActions.clickPreviewDataLinkOnSinkPluginNode(pluginName);
-  }
-
   @Then("Deploy the pipeline")
   public void deployThePipeline() {
     CdfStudioActions.pipelineDeploy();
@@ -358,5 +363,45 @@ public class PipelineSteps implements CdfHelper {
   @Then("Validate OUT record count is equal to IN record count")
   public void validateOUTRecordCountIsEqualToINRecordCount() {
     Assert.assertEquals(recordOut(), recordIn());
+  }
+
+  @Then("Enter input plugin property: {string} with value: {string}")
+  public void enterInputPluginPropertyWithValue(String pluginProperty, String value) {
+    CdfPluginPropertiesActions.enterValueInInputProperty(pluginProperty, value);
+  }
+
+  @Then("Replace input plugin property: {string} with value: {string}")
+  public void replaceInputPluginPropertyWithValue(String pluginProperty, String value) {
+    CdfPluginPropertiesActions.replaceValueInInputProperty(pluginProperty, value);
+  }
+
+  @Then("Enter textarea plugin property: {string} with value: {string}")
+  public void enterTextareaPluginPropertyWithValue(String pluginProperty, String value) {
+    CdfPluginPropertiesActions.enterValueInTextareaProperty(pluginProperty, value);
+  }
+
+  @Then("Replace textarea plugin property: {string} with value: {string}")
+  public void replaceTextareaPluginPropertyWithValue(String pluginProperty, String value) {
+    CdfPluginPropertiesActions.replaceValueInTextareaProperty(pluginProperty, value);
+  }
+
+  @Then("Click plugin property: {string} button")
+  public void clickPluginPropertyButton(String pluginProperty) {
+    CdfPluginPropertiesActions.clickPluginPropertyButton(pluginProperty);
+  }
+
+  @Then("Click plugin property: {string}")
+  public void clickPluginPropertyElement(String pluginProperty) {
+    CdfPluginPropertiesActions.clickPluginPropertyElement(pluginProperty);
+  }
+
+  @Then("Select radio button plugin property: {string} with value: {string}")
+  public void selectRadioButtonPluginPropertyValue(String pluginProperty, String value) {
+    CdfPluginPropertiesActions.selectPluginPropertyRadioButton(pluginProperty, value);
+  }
+
+  @Then("Select dropdown plugin property: {string} with option value: {string}")
+  public void selectDropdownPluginPropertyOptionValue(String pluginProperty, String option) {
+    CdfPluginPropertiesActions.selectPluginPropertyDropdownOption(pluginProperty, option);
   }
 }

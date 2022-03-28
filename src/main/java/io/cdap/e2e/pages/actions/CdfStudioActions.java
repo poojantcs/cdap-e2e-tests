@@ -326,6 +326,15 @@ public class CdfStudioActions {
   }
 
   /**
+   * @param fromPlugin Title of the plugin from which connection needs to start
+   * @param toPlugin   Title of the plugin to connect to
+   */
+  public static void establishConnection(String fromPlugin, String toPlugin) {
+    ElementHelper.dragAndDrop(CdfStudioLocators.locatePluginEndpointInCanvas(fromPlugin),
+                              CdfStudioLocators.locatePluginNodeInCanvas(toPlugin));
+  }
+
+  /**
    * Click 'Preview Data' link on the source plugin
    *
    * @param pluginName

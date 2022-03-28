@@ -191,10 +191,10 @@ public class ElementHelper {
    */
   public static void selectAllTextAndClear(WebElement element) {
     String currentOs = System.getProperty("os.name");
-    String selectAllCommand = Keys.COMMAND + "a";
+    String selectAllCommand = Keys.CONTROL + "a";
 
-    if (currentOs.toLowerCase().contains("Linux")) {
-      selectAllCommand = Keys.CONTROL + "a";
+    if (currentOs.toLowerCase().contains("mac")) {
+      selectAllCommand = Keys.COMMAND + "a";
     }
 
     logger.info("Select All text and clear for WebElement: " + element);
