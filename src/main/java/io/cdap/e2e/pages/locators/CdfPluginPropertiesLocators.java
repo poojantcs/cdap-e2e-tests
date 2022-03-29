@@ -29,36 +29,32 @@ import java.util.List;
  */
 public class CdfPluginPropertiesLocators {
 
-  public static WebElement locateMacroButtonOfProperty(String pluginProperty) {
-    return SeleniumDriver.getDriver().findElement(By.xpath("//div[@data-cy='" + pluginProperty + "']/button"));
-  }
-
-  public static WebElement locateMacroInputOfProperty(String pluginProperty) {
-    return SeleniumDriver.getDriver().findElement(By.xpath("//input[@data-cy='" + pluginProperty + "']"));
-  }
-
-  public static WebElement locateMacroTextareaOfProperty(String pluginProperty) {
-    return SeleniumDriver.getDriver().findElement(By.xpath("//textarea[@data-cy='" + pluginProperty + "']"));
-  }
-
   @FindBy(how = How.XPATH, using = "//button[@data-cy='get-schema-btn'][./span[contains(text(), 'Get Schema')]]")
   public static WebElement getSchemaButton;
+
   @FindBy(how = How.XPATH, using = "//button[@data-cy='get-schema-btn']//span[contains(@class, 'fa-spin')]")
   public static WebElement loadingSpinnerOnGetSchemaButton;
+
   @FindBy(how = How.XPATH, using = "//button[contains(@class, 'validate-btn')]")
   public static WebElement validateButton;
+
   @FindBy(how = How.XPATH, using = "//button[contains(@class, 'validate-btn')]//span[contains(@class, 'fa-spin')]")
   public static WebElement loadingSpinnerOnValidateButton;
+
   @FindBy(how = How.XPATH, using = "//*[@data-cy='plugin-validation-success-msg']")
   public static WebElement pluginValidationSuccessMsg;
+
   @FindBy(how = How.XPATH, using = "//*[@data-cy='plugin-validation-error-msg']")
   public static WebElement pluginValidationErrorMsg;
+
   @FindBy(how = How.XPATH, using = "//h2[contains(text(), 'Errors')]" +
     "/following-sibling::div[contains(@class, 'text-danger')]//li")
   public static WebElement errorMessageOnHeader;
+
   @FindBy(how = How.XPATH,
     using = "(//h2[text()='Input Records']/parent::div//div[not(@data-cy='preview-data-row')]/div[text()!=''])")
   public static List<WebElement> previewInputRecordsTableColumnNames;
+
   @FindBy(how = How.XPATH,
     using = "(//h2[text()='Output Records']/parent::div//div[not(@data-cy='preview-data-row')]/div[text()!=''])")
   public static List<WebElement> previewOutputRecordsTableColumnNames;

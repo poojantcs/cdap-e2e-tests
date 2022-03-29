@@ -59,24 +59,39 @@ public class CdfPluginPropertiesActions {
   /**
    * Fill value in the Macro enabled Plugin Property (input)
    *
-   * @param pluginProperty
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param argument
    */
   public static void fillValueInMacroEnabledInputProperty(String pluginProperty, String argument) {
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
     ElementHelper.replaceElementValue(
-      CdfPluginPropertiesLocators.locateMacroInputOfProperty(pluginProperty), "${" + argument + "}");
+      CdfPluginPropertiesLocators.locateMacroInputOfProperty(pluginPropertyDataCyAttribute), "${" + argument + "}");
   }
 
   /**
    * Fill value in the Macro enabled Plugin Property (textarea)
    *
-   * @param pluginProperty
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param argument
    */
   public static void fillValueInMacroEnabledTextareaProperty(String pluginProperty, String argument) {
-    ElementHelper.selectAllTextAndClear(CdfPluginPropertiesLocators.locateMacroTextareaOfProperty(pluginProperty));
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
+    ElementHelper.selectAllTextAndClear(CdfPluginPropertiesLocators
+                                          .locateMacroTextareaOfProperty(pluginPropertyDataCyAttribute));
     ElementHelper.sendKeysToTextarea(
-      CdfPluginPropertiesLocators.locateMacroTextareaOfProperty(pluginProperty),
+      CdfPluginPropertiesLocators.locateMacroTextareaOfProperty(pluginPropertyDataCyAttribute),
       "${" + argument + "}");
   }
 
@@ -335,15 +350,23 @@ public class CdfPluginPropertiesActions {
   /**
    * Enter value in the Plugin Property (input)
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param value          If value is present in {@link ConstantsUtil#DEFAULT_PLUGIN_PROPERTIES_FILE} as a key
    *                       then its value is fetched from it
    *                       else value is entered in the input as it is.
    */
   public static void enterValueInInputProperty(String pluginProperty, String value) {
-    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
-    WebElement pluginPropertyInput = CdfPluginPropertiesLocators.locatePropertyInput(pluginProperty);
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
 
+    WebElement pluginPropertyInput = CdfPluginPropertiesLocators.locatePropertyInput(pluginPropertyDataCyAttribute);
+
+    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
       ElementHelper.sendKeys(pluginPropertyInput, value);
       return;
@@ -355,15 +378,23 @@ public class CdfPluginPropertiesActions {
   /**
    * Replace value in the Plugin Property (input)
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param value          If value is present in {@link ConstantsUtil#DEFAULT_PLUGIN_PROPERTIES_FILE} as key
    *                       then value to replace is fetched from it
    *                       else input is replaced with the value as it is.
    */
   public static void replaceValueInInputProperty(String pluginProperty, String value) {
-    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
-    WebElement pluginPropertyInput = CdfPluginPropertiesLocators.locatePropertyInput(pluginProperty);
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
 
+    WebElement pluginPropertyInput = CdfPluginPropertiesLocators.locatePropertyInput(pluginPropertyDataCyAttribute);
+
+    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
       ElementHelper.replaceElementValue(pluginPropertyInput, value);
       return;
@@ -375,36 +406,54 @@ public class CdfPluginPropertiesActions {
   /**
    * Enter value in the Plugin Property (textarea)
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param value          If value is present in {@link ConstantsUtil#DEFAULT_PLUGIN_PROPERTIES_FILE} as key
    *                       then value to enter is fetched from it
    *                       else value is entered in textarea as it is.
    */
   public static void enterValueInTextareaProperty(String pluginProperty, String value) {
-    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
-    WebElement pluginPropertyTextarea = CdfPluginPropertiesLocators.locatePropertyTextArea(pluginProperty);
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
 
+    WebElement pluginPropertyTextarea = CdfPluginPropertiesLocators
+      .locatePropertyTextArea(pluginPropertyDataCyAttribute);
+
+    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
-      ElementHelper.sendKeys(pluginPropertyTextarea, value);
+      ElementHelper.sendKeysToTextarea(pluginPropertyTextarea, value);
       return;
     }
 
-    ElementHelper.sendKeys(pluginPropertyTextarea, valueFromPluginPropertiesFile);
+    ElementHelper.sendKeysToTextarea(pluginPropertyTextarea, valueFromPluginPropertiesFile);
   }
 
   /**
    * Replace value in the Plugin Property (textarea)
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param value          If value is present in {@link ConstantsUtil#DEFAULT_PLUGIN_PROPERTIES_FILE} as key
    *                       then value to replace is fetched from it
    *                       else textarea is replaced with value as it is.
    */
   public static void replaceValueInTextareaProperty(String pluginProperty, String value) {
-    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
-    WebElement pluginPropertyTextarea = CdfPluginPropertiesLocators.locatePropertyTextArea(pluginProperty);
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
+
+    WebElement pluginPropertyTextarea = CdfPluginPropertiesLocators
+      .locatePropertyTextArea(pluginPropertyDataCyAttribute);
     ElementHelper.selectAllTextAndClear(pluginPropertyTextarea);
 
+    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
       ElementHelper.sendKeysToTextarea(pluginPropertyTextarea, value);
       return;
@@ -416,59 +465,91 @@ public class CdfPluginPropertiesActions {
   /**
    * Click plugin property button
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    */
   public static void clickPluginPropertyButton(String pluginProperty) {
-    ElementHelper.clickOnElement(CdfPluginPropertiesLocators.locatePropertyButton(pluginProperty));
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
+
+    ElementHelper.clickOnElement(CdfPluginPropertiesLocators.locatePropertyButton(pluginPropertyDataCyAttribute));
   }
 
   /**
    * Click plugin property element
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    */
   public static void clickPluginPropertyElement(String pluginProperty) {
-    ElementHelper.clickOnElement(CdfPluginPropertiesLocators.locatePropertyElement(pluginProperty));
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
+
+    ElementHelper.clickOnElement(CdfPluginPropertiesLocators.locatePropertyElement(pluginPropertyDataCyAttribute));
   }
 
   /**
    * Select Plugin property radio button with passed value
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param value          If value is present in {@link ConstantsUtil#DEFAULT_PLUGIN_PROPERTIES_FILE} as key
    *                       then value to select is fetched from it
    *                       else radio button with value passed as param is selected.
    */
   public static void selectPluginPropertyRadioButton(String pluginProperty, String value) {
-    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
 
+    String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
-      ElementHelper.clickOnElement(CdfPluginPropertiesLocators.locatePropertyRadioButton(pluginProperty, value));
+      ElementHelper.selectRadioButton(CdfPluginPropertiesLocators
+                                        .locatePropertyRadioButton(pluginPropertyDataCyAttribute, value));
       return;
     }
 
-    ElementHelper.clickOnElement(CdfPluginPropertiesLocators.locatePropertyRadioButton(pluginProperty,
+    ElementHelper.selectRadioButton(CdfPluginPropertiesLocators.locatePropertyRadioButton(pluginPropertyDataCyAttribute,
       valueFromPluginPropertiesFile));
   }
 
   /**
    * Select Plugin property dropdown option
    *
-   * @param pluginProperty @data-cy attribute value of Plugin Property
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    * @param option         If option is present in {@link ConstantsUtil#DEFAULT_PLUGIN_PROPERTIES_FILE} as key
    *                       then option to select is fetched from it
    *                       else dropdown item is selected with option passed as param.
    */
   public static void selectPluginPropertyDropdownOption(String pluginProperty, String option) {
-    String optionFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(option);
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
 
+    String optionFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(option);
     if (optionFromPluginPropertiesFile == null) {
-      ElementHelper.selectDropdownOption(CdfPluginPropertiesLocators.locatePropertyElement(pluginProperty),
-        CdfPluginPropertiesLocators.locateDropdownListItem(option));
+      ElementHelper.selectDropdownOption(CdfPluginPropertiesLocators
+                                           .locatePropertyElement(pluginPropertyDataCyAttribute),
+                                         CdfPluginPropertiesLocators.locateDropdownListItem(option));
       return;
     }
 
-    ElementHelper.selectDropdownOption(CdfPluginPropertiesLocators.locatePropertyElement(pluginProperty),
+    ElementHelper.selectDropdownOption(CdfPluginPropertiesLocators.locatePropertyElement(pluginPropertyDataCyAttribute),
       CdfPluginPropertiesLocators.locateDropdownListItem(
         optionFromPluginPropertiesFile));
   }
