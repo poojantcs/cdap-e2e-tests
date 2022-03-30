@@ -23,6 +23,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Wait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,6 +90,15 @@ public class ElementHelper {
     scrollToElement(element);
     logger.info("Click on the element: " + element);
     element.click();
+  }
+
+  /**
+   * Click on the WebElement using Actions class
+   *
+   * @param element WebElement
+   */
+  public static void clickUsingActions(WebElement element) {
+    actions.moveToElement(element).click().perform();
   }
 
   /**

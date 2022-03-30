@@ -29,6 +29,9 @@ import java.util.List;
  */
 public class CdfPluginPropertiesLocators {
 
+  @FindBy(how = How.XPATH, using = "//*[contains(@class, 'modal-title')]//span")
+  public static WebElement pluginPropertiesPageHeader;
+
   @FindBy(how = How.XPATH, using = "//button[@data-cy='get-schema-btn'][./span[contains(text(), 'Get Schema')]]")
   public static WebElement getSchemaButton;
 
