@@ -50,10 +50,17 @@ public class CdfPluginPropertiesActions {
   /**
    * Click Macro (M) button of Plugin Property
    *
-   * @param pluginProperty
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
    */
   public static void clickMacroButtonOfProperty(String pluginProperty) {
-    CdfPluginPropertiesLocators.locateMacroButtonOfProperty(pluginProperty).click();
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
+    CdfPluginPropertiesLocators.locateMacroButtonOfProperty(pluginPropertyDataCyAttribute).click();
   }
 
   /**

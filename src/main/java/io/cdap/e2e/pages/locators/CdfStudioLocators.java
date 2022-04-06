@@ -180,8 +180,9 @@ public class CdfStudioLocators {
     return SeleniumDriver.getDriver().findElement(locatorOfPluginGroupCollapsed(pluginGroupName));
   }
 
-  public static WebElement locatePluginNameInList(String pluginName) {
-    String xpath = "//div[contains(@class, 'plugin-name')][normalize-space(text()) = '" + pluginName + "']";
+  public static WebElement locatePluginNameInList(String pluginName, String  pluginGroupName) {
+    String xpath = "//div[@data-cy='plugin-" + pluginGroupName + "-group']" +
+      "//div[contains(@class, 'plugin-name')][normalize-space(text()) = '" + pluginName + "']";
     return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
   }
 
@@ -214,12 +215,14 @@ public class CdfStudioLocators {
 
   public static WebElement locateSourcePluginPreviewDataLinkOnPluginNode(String pluginName) {
     return SeleniumDriver.getDriver().findElement(
-      By.xpath("//*[@data-type='batchsource']//div[contains(@data-cy,'" + pluginName + "-preview-data-btn')]//a"));
+      By.xpath("//*[@data-type='batchsource']//div[contains(@data-cy,'-preview-data-btn') " +
+                 "and contains(@data-cy,'" + pluginName + "')]//a"));
   }
 
   public static WebElement locateSinkPluginPreviewDataLinkOnPluginNode(String pluginName) {
     return SeleniumDriver.getDriver().findElement(
-      By.xpath("//*[@data-type='batchsink']//div[contains(@data-cy,'" + pluginName + "-preview-data-btn')]//a"));
+      By.xpath("//*[@data-type='batchsink']//div[contains(@data-cy,'-preview-data-btn') " +
+                 "and contains(@data-cy,'" + pluginName + "')]//a"));
   }
 
   /**

@@ -67,9 +67,9 @@ public class CdfStudioActions {
    *
    * @param pluginName
    */
-  public static void selectPluginFromList(String pluginName) {
+  public static void selectPluginFromList(String pluginName, String pluginGroupName) {
     logger.info("Click on plugin from the list: " + pluginName);
-    ElementHelper.clickOnElement(CdfStudioLocators.locatePluginNameInList(pluginName));
+    ElementHelper.clickOnElement(CdfStudioLocators.locatePluginNameInList(pluginName, pluginGroupName));
   }
 
   /**

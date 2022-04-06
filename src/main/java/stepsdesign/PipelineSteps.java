@@ -82,7 +82,7 @@ public class PipelineSteps implements CdfHelper {
   @When("Select plugin: {string} from the plugins list as: {string}")
   public void selectPlugin(String pluginName, String pluginGroupName) {
     logger.info("Click on plugin: " + pluginName + " from the Plugin group: " + pluginGroupName);
-    CdfStudioActions.selectPluginFromList(pluginName);
+    CdfStudioActions.selectPluginFromList(pluginName, pluginGroupName);
   }
 
   @When("Select Sink plugin: {string} from the plugins list")
@@ -195,6 +195,13 @@ public class PipelineSteps implements CdfHelper {
     propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
     sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
     CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(schemaJsonArray);
+  }
+
+  @Then("Verify the Output Schema matches the Expected Schema: {string}")
+  public void verifyOutputSchemaMatchesExpectedSchema(String expectedSchemaJsonArrayLocation) {
+    propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
+    sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
+    CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(expectedSchemaJsonArrayLocation);
   }
 
   @When("Click on the Get Schema button")
