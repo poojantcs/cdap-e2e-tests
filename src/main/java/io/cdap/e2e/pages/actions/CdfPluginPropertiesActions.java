@@ -96,7 +96,7 @@ public class CdfPluginPropertiesActions {
       pluginPropertyDataCyAttribute = pluginProperty;
     }
     ElementHelper.selectAllTextAndClear(CdfPluginPropertiesLocators
-                                          .locateMacroTextareaOfProperty(pluginPropertyDataCyAttribute));
+      .locateMacroTextareaOfProperty(pluginPropertyDataCyAttribute));
     ElementHelper.sendKeysToTextarea(
       CdfPluginPropertiesLocators.locateMacroTextareaOfProperty(pluginPropertyDataCyAttribute),
       "${" + argument + "}");
@@ -289,6 +289,15 @@ public class CdfPluginPropertiesActions {
   public static void verifyOutputSchemaMatchesExpectedSchema(String schemaJsonArray) {
     Map<String, String> expectedOutputSchema =
       JsonUtils.convertKeyValueJsonArrayToMap(PluginPropertyUtils.pluginProp(schemaJsonArray));
+
+    expectedOutputSchema.forEach((key, value) -> {
+      boolean isFieldTypeEntryPresent = WaitHelper.waitForElementToBeOptionallyPresent(
+        CdfPluginPropertiesLocators.locateOutputSchemaFieldTypeEntry(key, value), 1);
+
+      if (!isFieldTypeEntryPresent) {
+        logger.info("Unable to find <Field name: Field type>: " + key + ": " + value);
+      }
+    });
 
     Assert.assertTrue("Schema displayed on UI should match with the expected Schema",
       getOutputSchema().equals(expectedOutputSchema));
@@ -523,7 +532,7 @@ public class CdfPluginPropertiesActions {
     String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
       ElementHelper.selectRadioButton(CdfPluginPropertiesLocators
-                                        .locatePropertyRadioButton(pluginPropertyDataCyAttribute, value));
+        .locatePropertyRadioButton(pluginPropertyDataCyAttribute, value));
       return;
     }
 
@@ -551,8 +560,8 @@ public class CdfPluginPropertiesActions {
     String optionFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(option);
     if (optionFromPluginPropertiesFile == null) {
       ElementHelper.selectDropdownOption(CdfPluginPropertiesLocators
-                                           .locatePropertyElement(pluginPropertyDataCyAttribute),
-                                         CdfPluginPropertiesLocators.locateDropdownListItem(option));
+          .locatePropertyElement(pluginPropertyDataCyAttribute),
+        CdfPluginPropertiesLocators.locateDropdownListItem(option));
       return;
     }
 

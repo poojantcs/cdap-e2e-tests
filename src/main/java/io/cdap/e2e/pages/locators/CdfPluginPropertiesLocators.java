@@ -116,4 +116,8 @@ public class CdfPluginPropertiesLocators {
     return SeleniumDriver.getDriver()
       .findElement(By.xpath("//*[@data-cy='" + property + "']//input[@type='radio' and @value='" + value + "']"));
   }
+
+  public static By locateOutputSchemaFieldTypeEntry(String fieldName, String fieldType) {
+    return By.xpath("//input[@value='" + fieldName + "']/following-sibling::div//select[@title='" + fieldType + "']");
+  }
 }

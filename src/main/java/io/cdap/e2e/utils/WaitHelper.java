@@ -73,6 +73,27 @@ public class WaitHelper {
   }
 
   /**
+   * Wait for element to be optionally present
+   *
+   * @param locator locator of the element
+   * @return WebElement
+   */
+  public static boolean waitForElementToBeOptionallyPresent(By locator, long timeoutInSeconds) {
+    logger.info("Waiting for the element: " + locator + " to be optionally present " +
+      "with the timeout: " + timeoutInSeconds + " seconds");
+    boolean flag = false;
+
+    try {
+      SeleniumDriver.getWaitDriver(timeoutInSeconds).until(ExpectedConditions.presenceOfElementLocated(locator));
+      flag = true;
+      return flag;
+    } catch (Exception e) {
+      logger.info("Element: " + locator + " is not present");
+      return flag;
+    }
+  }
+
+  /**
    * Wait for element to be displayed within the specified timeout
    *
    * @param element          WebElement to wait for
@@ -231,7 +252,7 @@ public class WaitHelper {
     };
 
     logger.info("Waiting for the element: " + element + " to be enabled " +
-                  "with the timeout: " + timeoutInSeconds + " seconds");
+      "with the timeout: " + timeoutInSeconds + " seconds");
     SeleniumDriver.getWaitDriver(timeoutInSeconds).until(elementToBeEnabled);
   }
 }
