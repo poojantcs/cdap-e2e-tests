@@ -39,11 +39,6 @@ public class CdfBigQueryPropertiesActions {
     ElementHelper.replaceElementValue(CdfBigQueryPropertiesLocators.serviceFilePath, path);
   }
 
-  public static void enterJSONPath(String path) throws InterruptedException, IOException {
-    ElementHelper.replaceElementValue(CdfBigQueryPropertiesLocators.serviceJSONPath, path);
-  }
-
-
   public static void enterBigQueryReferenceName(String referenceName) {
     ElementHelper.sendKeys(CdfBigQueryPropertiesLocators.bigQueryReferenceName, referenceName);
   }
