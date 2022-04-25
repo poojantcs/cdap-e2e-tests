@@ -21,6 +21,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.w3c.dom.html.HTMLInputElement;
 
 /**
  * Represents CdfBigQueryPropertiesLocators
@@ -115,4 +116,18 @@ public class CdfBigQueryPropertiesLocators {
 
   @FindBy(how = How.XPATH, using = "//*[@data-cy='clusteringOrder']//*[@data-cy='key']/input")
   public static WebElement clusteringOrder;
+
+  @FindBy(how = How.XPATH, using = "//input[@data-cy='serviceAccountJSON']")
+  public static WebElement serviceJSONPath;
+
+  public static WebElement clickOnExpandButton(String key) {
+
+    String xpath =
+      "//input[@value='" + key + "' and @placeholder='Field name']" +
+        "/ancestor::div[@classes='[object Object]']" +
+        "/ancestor::div[@data-cy='schema-row-0']//*[local-name()='svg' and @data-cy='expand-button']";
+
+    return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
+
+  }
 }

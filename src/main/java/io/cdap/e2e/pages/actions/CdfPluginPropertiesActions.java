@@ -291,6 +291,7 @@ public class CdfPluginPropertiesActions {
       JsonUtils.convertKeyValueJsonArrayToMap(PluginPropertyUtils.pluginProp(schemaJsonArray));
 
     expectedOutputSchema.forEach((key, value) -> {
+
       boolean isFieldTypeEntryPresent = WaitHelper.waitForElementToBeOptionallyPresent(
         CdfPluginPropertiesLocators.locateOutputSchemaFieldTypeEntry(key, value), 1);
 

@@ -19,6 +19,7 @@ import io.cdap.e2e.pages.actions.CdfLogActions;
 import io.cdap.e2e.pages.actions.CdfPipelineRunAction;
 import io.cdap.e2e.pages.actions.CdfPluginPropertiesActions;
 import io.cdap.e2e.pages.actions.CdfStudioActions;
+import io.cdap.e2e.pages.locators.CdfBigQueryPropertiesLocators;
 import io.cdap.e2e.pages.locators.CdfStudioLocators;
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.e2e.utils.ConstantsUtil;
@@ -202,6 +203,20 @@ public class PipelineSteps implements CdfHelper {
     propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
     sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
     CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(expectedSchemaJsonArrayLocation);
+  }
+
+  @Then("Validate output schema with expectedSchema for listed hierarchical fields:")
+  public void validateHeirarchicalOutputSchemaWithExpectedSchema(DataTable table) {
+    Map<String, String> data = table.asMap(String.class, String.class);
+    CdfPluginPropertiesActions.clickGetSchemaButton();
+    data.forEach((key, value) -> {
+
+      CdfBigQueryPropertiesLocators.clickOnExpandButton(key).click();
+      propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
+      sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
+      CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(value);
+
+    });
   }
 
   @When("Click on the Get Schema button")

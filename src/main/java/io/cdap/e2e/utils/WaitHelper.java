@@ -19,10 +19,15 @@ package io.cdap.e2e.utils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Coordinates;
+import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -33,6 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class WaitHelper {
   private static final Logger logger = LoggerFactory.getLogger(WaitHelper.class);
+  private static final Actions actions = new Actions(SeleniumDriver.getDriver());
 
   /**
    * Wait for page to load
@@ -83,10 +89,21 @@ public class WaitHelper {
       "with the timeout: " + timeoutInSeconds + " seconds");
     boolean flag = false;
 
+    //div[@data-cy='schema-fields-list']
+    String xpath = "//div[@data-cy='schema-fields-list']";
+    String xpath2 = "//div[normalize-space(text())='Output Schema']";
     try {
+     // actions.moveToElement(SeleniumDriver.getDriver().findElement(By.xpath(xpath))).perform();
+
+      SeleniumDriver.getDriver().findElement(By.xpath(xpath2)).click();
+      Thread.sleep(1000);
+      ((JavascriptExecutor) SeleniumDriver.getDriver()).executeScript
+        ("arguments[0].scrollIntoView(true);", SeleniumDriver.getDriver().findElement(locator));
+
       SeleniumDriver.getWaitDriver(timeoutInSeconds).until(ExpectedConditions.presenceOfElementLocated(locator));
       flag = true;
       return flag;
+
     } catch (Exception e) {
       logger.info("Element: " + locator + " is not present");
       return flag;
