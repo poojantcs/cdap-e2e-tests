@@ -117,8 +117,6 @@ public class CdfBigQueryPropertiesLocators {
   @FindBy(how = How.XPATH, using = "//*[@data-cy='clusteringOrder']//*[@data-cy='key']/input")
   public static WebElement clusteringOrder;
 
-  @FindBy(how = How.XPATH, using = "//input[@data-cy='serviceAccountJSON']")
-  public static WebElement serviceJSONPath;
 
   public static WebElement clickOnExpandButton(String key) {
 
