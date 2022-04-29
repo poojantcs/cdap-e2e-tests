@@ -16,6 +16,7 @@
 
 package io.cdap.e2e.pages.actions;
 
+import io.cdap.e2e.pages.locators.CdfBigQueryPropertiesLocators;
 import io.cdap.e2e.pages.locators.CdfPluginPropertiesLocators;
 import io.cdap.e2e.pages.locators.CdfSchemaLocators;
 import io.cdap.e2e.pages.locators.CdfStudioLocators;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents Cdf Plugin's Properties page Actions
@@ -259,7 +261,6 @@ public class CdfPluginPropertiesActions {
 
     return propertiesSchemaColumnList;
   }
-
   /**
    * Get the generated Output Schema of the Source plugin
    *
@@ -277,6 +278,30 @@ public class CdfPluginPropertiesActions {
       index++;
     }
 
+    return actualOutputSchema;
+  }
+
+  // Not of our Use
+  /**
+   * Get the generated Output Schema of the Hierarchical Field
+   *
+   * @return Output Schema
+   */
+  public static Map<String, String> getOutputSchemaForHierarchicalField(String key) {
+    WaitHelper.waitForElementToBeDisplayed(CdfSchemaLocators.outputSchemaColumnNames.get(0));
+    Map<String, String> actualOutputSchema = new HashMap<>();
+    int index = 0;
+
+      for (WebElement element : CdfSchemaLocators.outputSchemaColumnNames) {
+
+        if (element.equals(CdfBigQueryPropertiesLocators.rowOutputSchema(key))) {
+        actualOutputSchema.put(
+          ElementHelper.getElementAttribute(element, "value"),
+          ElementHelper.getElementAttribute(CdfSchemaLocators.outputSchemaDataTypes.get(index), "title"));
+        index++;
+
+      }
+    }
     return actualOutputSchema;
   }
 
@@ -303,7 +328,6 @@ public class CdfPluginPropertiesActions {
     Assert.assertTrue("Schema displayed on UI should match with the expected Schema",
       getOutputSchema().equals(expectedOutputSchema));
   }
-
   /**
    * Verify the Input Schema matches the Output Schema
    *

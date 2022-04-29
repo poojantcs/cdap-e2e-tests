@@ -89,14 +89,10 @@ public class WaitHelper {
       "with the timeout: " + timeoutInSeconds + " seconds");
     boolean flag = false;
 
-    //div[@data-cy='schema-fields-list']
-    String xpath = "//div[@data-cy='schema-fields-list']";
     String xpath2 = "//div[normalize-space(text())='Output Schema']";
-    try {
-     // actions.moveToElement(SeleniumDriver.getDriver().findElement(By.xpath(xpath))).perform();
 
+    try {
       SeleniumDriver.getDriver().findElement(By.xpath(xpath2)).click();
-      Thread.sleep(1000);
       ((JavascriptExecutor) SeleniumDriver.getDriver()).executeScript
         ("arguments[0].scrollIntoView(true);", SeleniumDriver.getDriver().findElement(locator));
 

@@ -120,12 +120,22 @@ public class CdfBigQueryPropertiesLocators {
 
   public static WebElement clickOnExpandButton(String key) {
 
-    String xpath =
-      "//input[@value='" + key + "' and @placeholder='Field name']" +
-        "/ancestor::div[@classes='[object Object]']" +
-        "/ancestor::div[@data-cy='schema-row-0']//*[local-name()='svg' and @data-cy='expand-button']";
+    String xpath = "//input[@value='" + key + "']" +
+      "//ancestor::div[contains(@data-cy, 'schema-row')]/*[@data-cy='expand-button']";
+    return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
+  }
 
+  public static WebElement clickOnExpandButtonInsideExpandButton(String key) {
+    String xpath = "//input[@value='" + key + "']" +
+      "/ancestor::div[contains(@data-cy,'schema-row')]/following-sibling::div[1]//*[@data-cy='expand-button']";
     return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
 
   }
+
+  public static WebElement rowOutputSchema(String key) {
+    String xpath = "//input[@value='" + key + "' and @placeholder='Field name']";
+    return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
+
+  }
+
 }

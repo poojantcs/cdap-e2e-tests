@@ -207,17 +207,48 @@ public class PipelineSteps implements CdfHelper {
 
   @Then("Validate output schema with expectedSchema for listed hierarchical fields:")
   public void validateHeirarchicalOutputSchemaWithExpectedSchema(DataTable table) {
-    Map<String, String> data = table.asMap(String.class, String.class);
+    List<Map<String, String>> data = table.asMaps(String.class, String.class);
     CdfPluginPropertiesActions.clickGetSchemaButton();
-    data.forEach((key, value) -> {
 
-      CdfBigQueryPropertiesLocators.clickOnExpandButton(key).click();
+     for (Map<String, String> row : data) {
+      CdfBigQueryPropertiesLocators.clickOnExpandButton(row.get("Field")).click();
       propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
       sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
-      CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(value);
-
-    });
+      CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(row.get("Schema"));
+    }
   }
+
+  @Then("Validate output schema with expectedSchema for listed Record type fields of Ariba:")
+  public void validateHeirarchicalOutputSchemaWithExpectedSchemaForRecordType(DataTable table) {
+    List<Map<String, String>> data = table.asMaps(String.class, String.class);
+
+    for (Map<String, String> field : data) {
+        CdfBigQueryPropertiesLocators.clickOnExpandButton(field.get("Field")).click();
+        logger.info("Hey !!! Clicked on : " + field.get("Field"));
+        }
+
+    for (Map<String, String> value : data) {
+      propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
+      sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
+      CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(value.get("Schema"));
+    }
+  }
+
+
+  @Then("Validate output schema with expectedSchema for listed Array type fields of Ariba:")
+  public void validateHeirarchicalOutputSchemaWithExpectedSchemaForArrayType(DataTable table) {
+    List<Map<String, String>> data = table.asMaps(String.class, String.class);
+
+    for (Map<String, String> row : data) {
+      CdfBigQueryPropertiesLocators.clickOnExpandButton(row.get("Field")).click();
+      CdfBigQueryPropertiesLocators.clickOnExpandButtonInsideExpandButton(row.get("Field")).click();
+
+      propertiesSchemaColumnList = CdfPluginPropertiesActions.getListOfFieldsFromOutputSchema();
+      sourcePropertiesOutputSchema = CdfPluginPropertiesActions.getOutputSchema();
+      CdfPluginPropertiesActions.verifyOutputSchemaMatchesExpectedSchema(row.get("Schema"));
+    }
+  }
+
 
   @When("Click on the Get Schema button")
   public void clickOnGetSchemaButton() {
@@ -250,7 +281,7 @@ public class PipelineSteps implements CdfHelper {
   public void enterRuntimeArgumentValueFromEnvironmentVariableForKey(String envVariableKey,
                                                                      String runtimeArgumentKey) {
     CdfStudioActions.enterRuntimeArgumentValue(runtimeArgumentKey,
-      System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)));
+                                               System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)));
   }
 
   @Then("Run the preview of pipeline with runtime arguments")
