@@ -458,6 +458,16 @@ public class PipelineSteps implements CdfHelper {
     CdfPluginPropertiesActions.enterValueInTextareaProperty(pluginProperty, value);
   }
 
+  @Then("Enter input plugin property: {string} with value: {string} for Credentials and Authorization related fields")
+  public void enterInputPluginPropertyWithValueForCredentials(String pluginProperty, String envVariableKey) {
+    if (System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)) != null) {
+      CdfPluginPropertiesActions.enterCredentialsInInputProperty(pluginProperty,
+        System.getenv(PluginPropertyUtils.pluginProp(envVariableKey)));
+    } else {
+      CdfPluginPropertiesActions.enterValueInInputProperty(pluginProperty, envVariableKey);
+    }
+  }
+
   @Then("Replace textarea plugin property: {string} with value: {string}")
   public void replaceTextareaPluginPropertyWithValue(String pluginProperty, String value) {
     CdfPluginPropertiesActions.replaceValueInTextareaProperty(pluginProperty, value);
@@ -561,7 +571,7 @@ public class PipelineSteps implements CdfHelper {
 
   @Then("Select action: {string} for connection: {string} of type: {string}")
   public void selectActionForConnectionOfType(String action, String connectionName,
-                                                            String connectionType) {
+                                              String connectionType) {
     CdfConnectionActions.selectConnectionAction(connectionType, connectionName, action);
   }
 

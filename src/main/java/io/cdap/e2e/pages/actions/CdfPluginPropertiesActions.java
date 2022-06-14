@@ -109,7 +109,7 @@ public class CdfPluginPropertiesActions {
    */
   public static void selectMacroActionOfOutputSchemaProperty() {
     ElementHelper.selectDropdownOption(CdfSchemaLocators.schemaActions,
-                                       CdfPluginPropertiesLocators.locateDropdownListItem("macro"));
+      CdfPluginPropertiesLocators.locateDropdownListItem("macro"));
     WaitHelper.waitForElementToBeHidden(CdfSchemaLocators.schemaActionType("macro"));
   }
 
@@ -445,6 +445,24 @@ public class CdfPluginPropertiesActions {
   }
 
   /**
+   * Get Plugin Property input webelement
+   *
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
+   * @return
+   */
+  public static WebElement getInputPluginPropertyElement(String pluginProperty) {
+    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
+    if (pluginPropertyDataCyAttribute == null) {
+      pluginPropertyDataCyAttribute = pluginProperty;
+    }
+
+    return CdfPluginPropertiesLocators.locatePropertyInput(pluginPropertyDataCyAttribute);
+  }
+
+  /**
    * Enter value in the Plugin Property (input)
    *
    * @param pluginProperty @data-cy attribute value of Plugin Property.
@@ -456,12 +474,7 @@ public class CdfPluginPropertiesActions {
    *                       else value is entered in the input as it is.
    */
   public static void enterValueInInputProperty(String pluginProperty, String value) {
-    String pluginPropertyDataCyAttribute = PluginPropertyUtils.getPluginPropertyDataCyAttribute(pluginProperty);
-    if (pluginPropertyDataCyAttribute == null) {
-      pluginPropertyDataCyAttribute = pluginProperty;
-    }
-
-    WebElement pluginPropertyInput = CdfPluginPropertiesLocators.locatePropertyInput(pluginPropertyDataCyAttribute);
+    WebElement pluginPropertyInput = getInputPluginPropertyElement(pluginProperty);
 
     String valueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(value);
     if (valueFromPluginPropertiesFile == null) {
@@ -470,6 +483,20 @@ public class CdfPluginPropertiesActions {
     }
 
     ElementHelper.sendKeys(pluginPropertyInput, valueFromPluginPropertiesFile);
+  }
+
+  /**
+   * Enter Credentials/Authorization values in the Plugin Property (input)
+   *
+   * @param pluginProperty @data-cy attribute value of Plugin Property.
+   *                       If pluginProperty is present in {@link ConstantsUtil#DEFAULT_DATACY_ATTRIBUTES_FILE}
+   *                       then its data-cy is fetched from it
+   *                       else pluginProperty is used as it is.
+   * @param value          If the value is present in the Environment variables then its value is fetched
+   */
+  public static void enterCredentialsInInputProperty(String pluginProperty, String value) {
+    WebElement pluginPropertyInput = getInputPluginPropertyElement(pluginProperty);
+    ElementHelper.sendKeys(pluginPropertyInput, value);
   }
 
   /**
@@ -653,7 +680,7 @@ public class CdfPluginPropertiesActions {
 
   /**
    * Override default value of auto-detect with service account file path or json set in environment variable.
-   *
+   * <p>
    * Set values in below environment variable to override service account details
    * SERVICE_ACCOUNT_TYPE = FilePath or JSON
    * SERVICE_ACCOUNT_FILE_PATH = file path of json file
@@ -662,19 +689,19 @@ public class CdfPluginPropertiesActions {
   public static void overrideServiceAccountDetailsIfProvided() {
     String serviceAccountType = System.getenv("SERVICE_ACCOUNT_TYPE");
     logger.debug("ServiceAccount type set in environment variable 'SERVICE_ACCOUNT_TYPE' with value: "
-                   + serviceAccountType);
+      + serviceAccountType);
     if (serviceAccountType != null) {
       if (serviceAccountType.equalsIgnoreCase("FilePath")) {
         String serviceAccountFilePath = System.getenv("SERVICE_ACCOUNT_FILE_PATH");
         if (serviceAccountFilePath == null) {
           logger.error("ServiceAccount override failed - " +
-                         "Environment variable SERVICE_ACCOUNT_FILE_PATH is not set with filepath");
+            "Environment variable SERVICE_ACCOUNT_FILE_PATH is not set with filepath");
           return;
         }
         if (!serviceAccountFilePath.equalsIgnoreCase("auto-detect")) {
           CdfPluginPropertiesActions.replaceValueInInputProperty("serviceFilePath", serviceAccountFilePath);
           logger.info("ServiceAccount FilePath entered from environment variable with value: "
-                        + serviceAccountFilePath);
+            + serviceAccountFilePath);
         }
         return;
       }
@@ -682,7 +709,7 @@ public class CdfPluginPropertiesActions {
         String serviceAccountJSON = System.getenv("SERVICE_ACCOUNT_JSON");
         if (serviceAccountJSON == null) {
           logger.error("ServiceAccount override failed - " +
-                         "Environment variable SERVICE_ACCOUNT_JSON is not set with JSON");
+            "Environment variable SERVICE_ACCOUNT_JSON is not set with JSON");
           return;
         }
         CdfPluginPropertiesActions.selectPluginPropertyRadioButton("serviceAccountType", "JSON");
@@ -691,8 +718,8 @@ public class CdfPluginPropertiesActions {
         return;
       }
       logger.error("ServiceAccount override failed - ServiceAccount type set in environment variable " +
-                     "'SERVICE_ACCOUNT_TYPE' with invalid value: " + serviceAccountType + ". " +
-                     "Value should be either 'FilePath' or 'JSON'");
+        "'SERVICE_ACCOUNT_TYPE' with invalid value: " + serviceAccountType + ". " +
+        "Value should be either 'FilePath' or 'JSON'");
     }
   }
 
@@ -721,8 +748,8 @@ public class CdfPluginPropertiesActions {
     }
 
     AssertionHelper.verifyElementContainsText(SeleniumDriver.getDriver().findElement(
-      CdfPluginPropertiesLocators.locatorOfPropertyElementText(pluginPropertyDataCyAttribute)),
-                                              textFromPluginPropertiesFile);
+        CdfPluginPropertiesLocators.locatorOfPropertyElementText(pluginPropertyDataCyAttribute)),
+      textFromPluginPropertiesFile);
   }
 
   /**
@@ -748,12 +775,12 @@ public class CdfPluginPropertiesActions {
     String expectedValueFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(expectedValue);
     if (expectedValueFromPluginPropertiesFile == null) {
       Assert.assertEquals("Verify value displayed in Input plugin property "
-                            + pluginPropertyDataCyAttribute, expectedValue, actualValue);
+        + pluginPropertyDataCyAttribute, expectedValue, actualValue);
       return;
     }
 
     Assert.assertEquals("Verify value displayed in Input plugin property "
-                          + pluginPropertyDataCyAttribute, expectedValueFromPluginPropertiesFile, actualValue);
+      + pluginPropertyDataCyAttribute, expectedValueFromPluginPropertiesFile, actualValue);
   }
 
   /**
@@ -779,12 +806,12 @@ public class CdfPluginPropertiesActions {
     String expectedOptionFromPluginPropertiesFile = PluginPropertyUtils.pluginProp(expectedOption);
     if (expectedOptionFromPluginPropertiesFile == null) {
       Assert.assertEquals("Verify Option selected in dropdown plugin property "
-                            + pluginPropertyDataCyAttribute, expectedOption, actualOption);
+        + pluginPropertyDataCyAttribute, expectedOption, actualOption);
       return;
     }
 
     Assert.assertEquals("Verify Option selected in dropdown plugin property "
-                          + pluginPropertyDataCyAttribute, expectedOptionFromPluginPropertiesFile, actualOption);
+      + pluginPropertyDataCyAttribute, expectedOptionFromPluginPropertiesFile, actualOption);
   }
 
   /**
@@ -814,7 +841,7 @@ public class CdfPluginPropertiesActions {
 
     AssertionHelper.verifyElementContainsText
       (CdfPluginPropertiesLocators.locatePropertyToggle(pluginPropertyDataCyAttribute),
-       expectedToggledStateFromPluginPropertiesFile);
+        expectedToggledStateFromPluginPropertiesFile);
   }
 
   /**
@@ -843,7 +870,7 @@ public class CdfPluginPropertiesActions {
       CdfPluginPropertiesLocators.locatorOfSelectedPropertyRadioButton(pluginPropertyDataCyAttribute
         , expectedValueFromPluginPropertiesFile), ConstantsUtil.DEFAULT_TIMEOUT_SECONDS);
     Assert.assertTrue("Verify radio button " + pluginPropertyDataCyAttribute + " is selected with "
-                        + expectedValueFromPluginPropertiesFile, isElementDisplayed);
+      + expectedValueFromPluginPropertiesFile, isElementDisplayed);
   }
 
   /**
